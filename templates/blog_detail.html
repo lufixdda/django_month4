@@ -1,0 +1,20 @@
+<p>{{ blog_id.title }}</p>
+<img src="{{ blog_id.image.url }}" alt="" width="250" height="250">
+
+{% if blog_id.description %}
+    <p>{{ blog_id.description }}</p>
+{% else %}
+    <p>Блог еще добавлен....</p>
+{% endif %}
+
+<p>{{ blog_id.author_email }}</p>
+
+<p>{{ blog_id.categories }}</p>
+
+{% if blog_id.url_blog %}
+    <a href="{{ blog_id.url_blog }}" target="_blank">Перейти</a>
+{% else %}
+    <p>Ссылка не была добавлена....</p>
+{% endif %}
+
+<p>{{ blog_id.created_at }}</p>

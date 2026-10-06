@@ -1,0 +1,9 @@
+{% for i in blog %}
+
+<p>{{ i.title }}</p>
+<img src="{{ i.image.url }}" alt="" width="250" height="250">
+<p>{{ i.created_at }}</p>
+
+<a href="/blog_list/{{ i.id }}/">Подробнее</a>
+
+{% endfor %}

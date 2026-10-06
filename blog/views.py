@@ -1,5 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+
+
+def blog_list_view(request):
+    if request.method == 'GET':
+        blog = models.Blog.objects.all()
+    return render(request, 'blog_list.html', {'blog': blog})
+
+
+def blog_detail_view(request, id):
+    if request.method == 'GET':
+        blog_id = get_object_or_404(models.Blog, id=id)
+    return render(request, 'blog_detail.html', {'blog_id': blog_id})
+
+
+
+
+
+
+
+
+
+
+
 
 
 def my_favourite_writer_view(request):
