@@ -1,0 +1,15 @@
+<p>{{ product.title }}</p>
+<img src="{{ product.image.url }}" alt="" width="250" height="250">
+
+{% if product.description %}
+    <p>{{ product.description }}</p>
+{% else %}
+    <p>Описание пока не добавлено....</p>
+{% endif %}
+
+<p>Категория: {{ product.category }}</p>
+<p>Вес: {{ product.weight }} г</p>
+<p>Цвет: {{ product.color|default:"—" }}</p>
+<p>Цена: {{ product.price }} руб.</p>
+
+<p>{{ product.created_at }}</p>
