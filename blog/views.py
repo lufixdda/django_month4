@@ -1,55 +1,45 @@
-from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, TemplateView
+
+from . import models
 
 
-
-def book_list(request):
-    books = Book.objects.all()
-    return render(request, 'book/book_list.html', {'books': books})
-
-
-def book_detail(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'book/book_detail.html', {'book': book})
+class BookListView(ListView):
+    model = models.Book
+    template_name = 'book/book_list.html'
+    context_object_name = 'books'
 
 
-    
-
-def blog_list_view(request):
-    if request.method == 'GET':
-        blog = models.Blog.objects.all()
-    return render(request, 'blog_list.html', {'blog': blog})
+class BookDetailView(DetailView):
+    model = models.Book
+    template_name = 'book/book_detail.html'
+    context_object_name = 'book'
 
 
-def blog_detail_view(request, id):
-    if request.method == 'GET':
-        blog_id = get_object_or_404(models.Blog, id=id)
-    return render(request, 'blog_detail.html', {'blog_id': blog_id})
+class BlogListView(ListView):
+    model = models.Blog
+    template_name = 'blog_list.html'
+    context_object_name = 'blog'
 
 
+class BlogDetailView(DetailView):
+    model = models.Blog
+    template_name = 'blog_detail.html'
+    context_object_name = 'blog_id'
 
 
-
-
-
-
-
-
-
-
-
-def my_favourite_writer_view(request):
-    if request.method == 'GET':
+class FavouriteWriterView(TemplateView):
+    def get(self, request, *args, **kwargs):
         return HttpResponse('мне нравится трилогия Гарии Потера так что Джоан Роулинг')
 
 
-def facts_about_writer_view(request):
-    if request.method == 'GET':
+class FactsAboutWriterView(TemplateView):
+    def get(self, request, *args, **kwargs):
         return HttpResponse('Джоан Роулинг написала первую книгу, которая называется «Гарри Поттер и философский камень», в период с 1990 по 1995 год')
 
 
-def my_opinion_about_writer_view(request):
-    if request.method == 'GET':
+class OpinionAboutWriterView(TemplateView):
+    def get(self, request, *args, **kwargs):
         return HttpResponse(
             "Джоан Роулинг — всемирно известная писательница, "
             "создавшая легендарную вселенную Гарри Поттера и "

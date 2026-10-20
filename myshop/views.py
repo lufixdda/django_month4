@@ -1,12 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView, DetailView
+
 from .models import Product
 
 
-def product_list(request):
-    products = Product.objects.all().order_by('-created_at')
-    return render(request, 'product_list.html', {'products': products})
+class ProductListView(ListView):
+    model = Product
+    template_name = 'product_list.html'
+    context_object_name = 'products'
+    ordering = ['-created_at']
 
 
-def product_detail(request, id):
-    product = get_object_or_404(Product, id=id)
-    return render(request, 'product_detail.html', {'product': product})
+class ProductDetailView(DetailView):
+    model = Product
+    template_name = 'product_detail.html'
+    context_object_name = 'product'

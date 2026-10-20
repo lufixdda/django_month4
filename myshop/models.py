@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 class Product(models.Model):
     title = models.CharField(max_length=200, verbose_name='Название товара')
     description = models.TextField(verbose_name='Описание', blank=True)
-    price = models.IntegerField(max_length=10,  verbose_name='Цена')
+    price = models.IntegerField(verbose_name='Цена')
     image = models.ImageField(verbose_name='Фото товара', upload_to='product/')
     category = models.CharField(max_length=100, verbose_name='Категория')
     weight = models.IntegerField(default=0, verbose_name='Вес (г)')

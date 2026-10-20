@@ -1,49 +1,33 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, logout
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import LoginView, LogoutView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, TemplateView
+
 from . import models, forms
-from users.forms import LoginForm
-
-#register
-def register_view(request):
-    if request.method == 'POST':
-        form_obj = forms.CustomRegisterForm(request.POST, request.FILES)
-        if form_obj.is_valid():
-            form_obj.save()
-            return redirect('/login/')
-    else:
-        form_obj = forms.CustomRegisterForm()
-
-    return render(request, 'register.html', {'form': form_obj})
 
 
-
-#login 
-def auth_login_view(request):
-    if request.method == 'POST':
-        form_obj = LoginForm(data=request.POST)
-        if form_obj.is_valid():
-            user = form_obj.get_user()
-            login(request, user)
-            return redirect('/profile/')
-    else:
-        form_obj = AuthenticationForm()
-
-    return render(request, 'login.html', {'form': form_obj})
-
-#logout
-def auth_logout_view(request):
-    logout(request)
-    return redirect('/login/')
+class RegisterView(CreateView):
+    form_class = forms.CustomRegisterForm
+    template_name = 'register.html'
+    success_url = reverse_lazy('login')
 
 
-#profile
-def profile_view(request):
-    if not request.user.is_authenticated:
-        return redirect('/login/')
-
-    user = models.CustomUser.objects.get(id=request.user.id)
-    return render(request, 'profile.html', {'user': user})
+class AuthLoginView(LoginView):
+    authentication_form = forms.LoginForm
+    template_name = 'login.html'
+    redirect_authenticated_user = True
+    next_page = reverse_lazy('profile')
 
 
+class AuthLogoutView(LogoutView):
+    next_page = reverse_lazy('login')
+
+
+class ProfileView(TemplateView):
+    template_name = 'profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = models.CustomUser.objects.get(id=self.request.user.id)
+        return context
