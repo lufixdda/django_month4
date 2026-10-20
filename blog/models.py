@@ -37,11 +37,12 @@ class Book(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2, verbose_name='Цена')
     description = models.TextField(verbose_name='Описание', blank=True)
     cover_image = models.ImageField(verbose_name='Обложка', upload_to='book/covers/', blank=True)
+    views = models.PositiveIntegerField(default=0, verbose_name='Просмотры')
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'книга'
         verbose_name_plural = 'книги'
 
-    def __str__(self):
+    def __str__(self):  # pyright: ignore[reportIncompatibleMethodOverride]
         return self.title

@@ -1,0 +1,23 @@
+<h1>Поиск по названию</h1>
+<form action="/book_search/" method="GET">
+    <input type="text" name="q" type="search" placeholder="Поиск">
+</form>
+
+
+
+{% for book in books %}
+
+<p>{{ book.title }}</p>
+{% if book.cover_image %}
+<img src="{{ book.cover_image.url }}" alt="" width="250" height="250">
+{% endif %}
+<p>Автор: {{ book.author }}</p>
+
+<p>Жанр: {{ book.genre }}</p>
+<p>Цена: {{ book.price }} руб.</p>
+
+<a href="/book_list/{{ book.id }}/">Подробнее</a>
+
+<hr>
+
+{% endfor %}

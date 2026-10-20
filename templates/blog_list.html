@@ -1,3 +1,9 @@
+<h1>Поиск по названию</h1>
+<form action="/search/" method="GET">
+    <input type="text" name="q" type="search" placeholder="Поиск">
+</form>
+
+
 {% for i in blog %}
 
 <p>{{ i.title }}</p>
@@ -7,3 +13,18 @@
 <a href="/blog_list/{{ i.id }}/">Подробнее</a>
 
 {% endfor %}
+
+
+
+<div class="pagination"> <span class="step-links"> {% if blog.has_previous %} <a href="?page=1">« Первая</a> 
+    <a href="?page={{ blog.previous_page_number }}">Предыдущая</a> {% endif %}
+        <span class="current">
+            Страница {{ blog.number }} из {{ blog.paginator.num_pages }}.
+        </span>
+
+        {% if blog.has_next %}
+            <a href="?page={{ blog.next_page_number }}">Следующая</a>
+            <a href="?page={{ blog.paginator.num_pages }}">Последняя &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
